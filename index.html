@@ -1553,5 +1553,94 @@ revealScan($('#gate'));
 })();
 </script>
 <!-- ═══════════ end of auto-merge block ═══════════ -->
+   <!-- ═══════════ RESPONSIVE + NAVIGATION FIX PACK · paste once before </body> ═══════════ -->
+<style>
+/* ── 1 · chapter dots were invisible (opacity:0 hit the .dot spans too) ── */
+#chapterNav .dot{opacity:1;transform:none}
+
+/* ── 2 · phones: side nav becomes a bottom dot-nav instead of disappearing ── */
+@media(max-width:920px){
+  #chapterNav{display:flex;flex-direction:row;align-items:center;left:50%;
+    bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);
+    gap:16px;opacity:0;pointer-events:none;transition:opacity .8s}
+  body:not(.locked) #chapterNav{opacity:1;pointer-events:auto}
+  #chapterNav button{padding:6px}
+  #chapterNav button span:not(.dot){display:none}
+  #chapterNav .dot{width:9px;height:9px}
+  #toast{bottom:64px}
+  #musicBtn{bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+}
+
+/* ── 3 · lightbox controls on phones: arrows below the photo, counter on top ── */
+@media(max-width:640px){
+  .lb{padding:12px}
+  .lb-stage img{max-height:62dvh}
+  .lb-x{top:10px;right:12px;width:42px;height:42px}
+  .lb-nav{width:42px;height:42px;top:auto;transform:none;font-size:19px;
+    bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+  .lb-prev{left:calc(50% - 54px)}
+  .lb-next{right:calc(50% - 54px)}
+  .lb-count{bottom:auto;top:14px}
+  .lb-cap{font-size:19px;margin-top:10px}
+}
+
+/* ── 4 · tiny phones: nothing overflows anymore ── */
+@media(max-width:380px){
+  .reveal-head .l2{font-size:2.3rem}
+  .reveal-head .l3{font-size:1.35rem}
+  .reveal-head .l4,.reveal-head .l5{font-size:1.55rem}
+  .h-display{font-size:1.9rem}
+  .chip{font-size:10px;padding:6px 12px}
+  .lore-emoji{width:44px;height:44px;font-size:21px;border-radius:11px}
+  .lore-head{gap:12px;padding:14px}
+  .lore-plus{width:26px;height:26px;font-size:14px}
+  .btn{padding:13px 24px;font-size:13.5px}
+  .gate-for{font-size:1.9rem}
+}
+
+/* ── 5 · final-question overlay fits EVERY screen (short laptops + phones) ── */
+.fq-stage{max-height:100dvh;gap:14px;
+  padding:calc(18px + env(safe-area-inset-top,0px)) 18px calc(18px + env(safe-area-inset-bottom,0px))}
+.fq-imgframe img{max-height:min(52vh,480px)}
+@media(max-height:740px){
+  .fq-imgframe img{max-height:40vh}
+  .fq-question{font-size:clamp(1.25rem,4.2vw,2rem)}
+  .fq-stage{gap:10px}
+  .fq-yes{padding:13px 30px;font-size:1.05rem}
+}
+@media(max-width:420px){
+  .fq-answers{gap:12px}
+  .fq-yes{padding:14px 26px;font-size:1rem;letter-spacing:.08em}
+  .fq-contract{padding:18px 16px;font-size:.9rem;line-height:1.65}
+  .fq-stamp{right:8px;bottom:8px;font-size:.85em}
+  .fq-big{font-size:2rem}
+}
+
+/* ── 6 · spacing for the injected "next chapter" buttons ── */
+.gal-next,.lore-next{margin-top:28px;display:flex;justify-content:center}
+</style>
+
+<script>
+(function(){
+  /* injects the missing continue-buttons: photos → lore → map */
+  function addNext(cls, anchorSel, label, target){
+    if(document.querySelector('.'+cls)) return;
+    const anchor=document.querySelector(anchorSel);
+    if(!anchor) return;
+    const w=document.createElement('div');
+    w.className=cls;
+    w.innerHTML='<button class="btn" data-goto="'+target+'">'+label+'</button>';
+    anchor.insertAdjacentElement('afterend',w);
+  }
+  function place(){
+    addNext('gal-next', '.gal-note', 'the archive awaits →', 'lore');
+    addNext('lore-next','.lore-foot','one more chapter →',  'map');
+  }
+  place();
+  document.addEventListener('DOMContentLoaded',place);
+  window.addEventListener('load',place);
+})();
+</script>
+<!-- ═══════════ end of fix pack ═══════════ -->
 </body>
 </html>
